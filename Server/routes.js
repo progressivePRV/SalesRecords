@@ -88,9 +88,9 @@ route.use(connectToDb);
 //     var item ={
 //         'item_type' : data.ItemType,
 //         'order_date' : newDate,
-//         'units_sold' : data.UnitsSold,
-//         'unit_cost': data.UnitCost,
-//         'total' : totalCost.toFixed(2)
+//         'units_sold' : parseInt(data.UnitsSold),
+//         'unit_cost': parseFloat(data.UnitCost),
+//         'total' : parseFloat(totalCost.toFixed(2))
 //     };
 //     items.push(item);
 //   })
@@ -112,7 +112,8 @@ route.get('/sales',[
     query('page','page should be valid number greater than 0').isInt({gt:0}),
     query('filter','filter value can only be item_type, order_date, units_sold, unit_cost or total').optional().isIn(['item_type','order_date','units_sold','unit_cost','total']),
     query('sortBy','sortBy value can only be item_type, order_date, units_sold, unit_cost or total').optional().isIn(['item_type','order_date','units_sold','unit_cost','total']),
-    query('sortOrder','sortBy value can only be asc,desc').optional().isIn(['asc','desc'])
+    query('sortOrder','sortBy value can only be asc,desc').optional().isIn(['asc','desc']),
+    query('filterComparator','filter comparator can only be gt, lt, gte, lte or eq').optional().isIn(['gt','lt','gte','lte','eq'])
 ],(request,response)=>{
     const err = validationResult(request);
     if(!err.isEmpty()){
@@ -123,12 +124,13 @@ route.get('/sales',[
     var pageNo = request.query.page;
     var filterQuery={};
     var sortQuery={};
+    var rule={};
 
     if(request.query.filter){
         if(!request.query.filterValue){
             var errors =[];
             var errVal = {
-                "value": "filter value",
+                "value": "",
                 "msg": "filter value should be provided if filter is provided",
                 "param": "filterValue",
                 "location": "query"
@@ -146,7 +148,75 @@ route.get('/sales',[
             return response.status(400).json(result);
         }
 
-        var rule = {"$regex": ".*"+request.query.filterValue+".*", "$options": "i"}
+        if(request.query.filter == 'units_sold' || request.query.filter=='unit_cost' || request.query.filter=='total'){
+            if(!request.query.filterComparator){
+                var errors =[];
+                var errVal = {
+                    "value": "",
+                    "msg": "filter comparator should be provided if filter is units_sold, unit_cost or total",
+                    "param": "filterComparator",
+                    "location": "query"
+                }
+                errors.push(errVal);
+                var error = {
+                    'errors':errors
+                };
+    
+                var result = {
+                    'error' : error
+                }
+    
+                closeConnection();
+                return response.status(400).json(result);
+            }
+            if(request.query.filterValue<=0){
+                var errors =[];
+                var errVal = {
+                    "value": request.query.filterValue,
+                    "msg": "filter value should be greater than 0 for filters units_sold, unit_cost and total",
+                    "param": "filterValue",
+                    "location": "query"
+                }
+                errors.push(errVal);
+                var error = {
+                    'errors':errors
+                };
+    
+                var result = {
+                    'error' : error
+                }
+    
+                closeConnection();
+                return response.status(400).json(result);
+            }
+
+            var filterComp = "$"+request.query.filterComparator;
+
+            rule = { [filterComp] : parseFloat(request.query.filterValue)};
+        }
+        else{
+            if(request.query.filterComparator){
+                var errors =[];
+                var errVal = {
+                    "value": request.query.filterComparator,
+                    "msg": "filter comparator should not be provided if filter is item_type or order_date",
+                    "param": "filterComparator",
+                    "location": "query"
+                }
+                errors.push(errVal);
+                var error = {
+                    'errors':errors
+                };
+    
+                var result = {
+                    'error' : error
+                }
+    
+                closeConnection();
+                return response.status(400).json(result);
+            }
+            rule = {"$regex": ".*"+request.query.filterValue+".*", "$options": "i"}
+        }
 
         filterQuery={
             [request.query.filter] : rule
@@ -157,7 +227,7 @@ route.get('/sales',[
         if(!request.query.sortOrder){
             var errors =[];
             var errVal = {
-                "value": "sort order",
+                "value": "",
                 "msg": "sort order should be provided if sortBy is provided",
                 "param": "sortOrder",
                 "location": "query"
