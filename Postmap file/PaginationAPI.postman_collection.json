@@ -13,7 +13,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmIxZDhjMGQ5ZjkxNDcxYWZhYjU0N2YiLCJleHAiOjE2MDU0OTU4NDYsImlhdCI6MTYwNTQ5MjI0Nn0.ZLlJLQGqQ3k5Tn2cOQpArljUxdScSdgJvskJ5thowzU",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmIxZGVjYTFhYjg4YzcyNTVmNDQyY2MiLCJleHAiOjE2MDU0OTk4MjgsImlhdCI6MTYwNTQ5NjIyOH0.CIDhK8nSTTaHAvo7XQkKQw-vic69PXw7iU-j4U4kJgc",
 							"type": "string"
 						}
 					]
@@ -21,7 +21,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://64.227.27.167:3000/api/v1/sales?page=1",
+					"raw": "http://64.227.27.167:3000/api/v1/sales?filter=item_type&filterValue=fruits&filterComparator=lt&page=1",
 					"protocol": "http",
 					"host": [
 						"64",
@@ -38,13 +38,15 @@
 					"query": [
 						{
 							"key": "filter",
-							"value": "order_date",
-							"disabled": true
+							"value": "item_type"
 						},
 						{
 							"key": "filterValue",
-							"value": "24",
-							"disabled": true
+							"value": "fruits"
+						},
+						{
+							"key": "filterComparator",
+							"value": "lt"
 						},
 						{
 							"key": "sortBy",
