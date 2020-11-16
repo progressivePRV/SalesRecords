@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "9c4ab6a3-aff1-48ab-aeb1-dfb0a82a3f8c",
+		"name": "PaginationAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sales",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmIxZDhjMGQ5ZjkxNDcxYWZhYjU0N2YiLCJleHAiOjE2MDU0OTU4NDYsImlhdCI6MTYwNTQ5MjI0Nn0.ZLlJLQGqQ3k5Tn2cOQpArljUxdScSdgJvskJ5thowzU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/sales?sortBy=order_date&sortOrder=desc&page=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"sales"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "order_date",
+							"disabled": true
+						},
+						{
+							"key": "filterValue",
+							"value": "24",
+							"disabled": true
+						},
+						{
+							"key": "sortBy",
+							"value": "order_date"
+						},
+						{
+							"key": "sortOrder",
+							"value": "desc"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Large Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/saveData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"saveData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\":\"John\",\n    \"lastName\":\"Doe\",\n    \"gender\":\"Male\",\n    \"email\":\"john@gmail.com\",\n    \"password\":\"user123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "john@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "user123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmIxZDhjMGQ5ZjkxNDcxYWZhYjU0N2YiLCJleHAiOjE2MDU0OTU4NDYsImlhdCI6MTYwNTQ5MjI0Nn0.ZLlJLQGqQ3k5Tn2cOQpArljUxdScSdgJvskJ5thowzU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
