@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SalesRecordApp</string>
+    <string name="Email">Email</string>
+    <string name="password">Password</string>
+    <string name="Signin">Sign In</string>
+    <string name="signUp">Sign Up</string>
+    <string name="Age">Age</string>
+    <string name="Female">Female</string>
+    <string name="Male">Male</string>
+    <string name="lastName">Last Name</string>
+    <string name="FirstName">Fisrt Name</string>
+    <string name="favorite">Favorite</string>
+    <string name="all_orders">All Orders</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
