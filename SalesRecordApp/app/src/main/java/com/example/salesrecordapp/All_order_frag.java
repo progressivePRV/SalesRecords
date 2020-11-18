@@ -594,13 +594,13 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                         Log.d("demo","memoryArrayList size is "+memoryArrayList.size());
                         mAdapter.notifyDataSetChanged();
                         if(isTop){
-                            Toast.makeText(getActivity(), "displaying pages " + page +"and " + (page+1) +"("+ memoryArrayList.size()+" enteries)", Toast.LENGTH_SHORT).show();
+                            tv_page_number.setText("Showing page " + page +" and " + (page+1) +"("+ memoryArrayList.size()+" entries)");
                             recyclerView.scrollToPosition(0);
                         }else{
                             if(page > 1){
-                                Toast.makeText(getActivity(), "displaying pages " + (page-1) +"and " + page +"("+ memoryArrayList.size()+" enteries)", Toast.LENGTH_SHORT).show();
+                                tv_page_number.setText("Showing page " + (page-1) +" and " + page +"("+ memoryArrayList.size()+" entries)");
                             }else{
-                                Toast.makeText(getActivity(), "displaying page " + page +"("+ memoryArrayList.size()+" enteries)", Toast.LENGTH_SHORT).show();
+                                tv_page_number.setText("Showing page " + page +"("+ memoryArrayList.size()+" entries)");
                             }
                             if(memoryArrayList.size()>50){
                                 recyclerView.scrollToPosition(51);
