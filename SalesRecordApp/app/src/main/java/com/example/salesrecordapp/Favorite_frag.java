@@ -151,6 +151,7 @@ public class Favorite_frag extends Fragment implements FavoriteAdapter.InteractW
                     mAdapter = new FavoriteAdapter(favArrayList, Favorite_frag.this);
                     recyclerView.setAdapter(mAdapter);
                 }else{
+                    favArrayList = new ArrayList<>();
                     recyclerView = getView().findViewById(R.id.favRecyclerView);
                     layoutManager = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(layoutManager);
