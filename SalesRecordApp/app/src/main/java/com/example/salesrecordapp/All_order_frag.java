@@ -216,7 +216,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
             @Override
             public void onRefresh() {
                 Log.d("demo","recyclerview refreshing");
-                if(page > 2){
+                if(page > 1){
                     page = page - 1;
                     for(int i=memoryArrayList.size()-1; i<0; i++){
                         memoryArrayList.remove(i);
