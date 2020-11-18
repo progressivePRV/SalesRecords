@@ -537,7 +537,6 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                         mAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), "Sorry no orders available!", Toast.LENGTH_SHORT).show();
                     }
-
                 } else {
                     Log.d(TAG, "onPostExecute: error occurred in fetching orders");
                     try {

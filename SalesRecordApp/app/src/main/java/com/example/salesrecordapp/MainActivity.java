@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         email_TIL = findViewById(R.id.email_TIL);
         password_TIL = findViewById(R.id.password_TIL);
 
+        checkIfUserIsLogedIN();
+
         findViewById(R.id.signup_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +75,15 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100 && resultCode == 200){
             finish();
+        }
+    }
+
+    private void checkIfUserIsLogedIN() {
+        preferences = getApplicationContext().getSharedPreferences("TokeyKey",0);
+        String pastTokenKey = preferences.getString("TOKEN_KEY", null);
+        if(pastTokenKey!=null && !pastTokenKey.equals("")){
+            //starting animation and async to check user
+            new getUser().execute();
         }
     }
 
@@ -162,12 +173,62 @@ public class MainActivity extends AppCompatActivity {
                     editor.commit();
                     Toast.makeText(MainActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, TabLayoutActivity.class);
-                    intent.putExtra("UserObject", user);
                     startActivity(intent);
                     finish();
                 }else{
                     //It means that they are some error while signing up.
                     Toast.makeText(MainActivity.this, root.getString("error"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class getUser extends AsyncTask<String, Void, String> {
+        boolean isStatus = true;
+        @Override
+        protected String doInBackground(String... strings) {
+            final OkHttpClient client = new OkHttpClient();
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences("TokeyKey", 0);
+
+            try {
+                Request request = new Request.Builder()
+                        .url(getResources().getString(R.string.endPointUrl)+"profile")
+                        .header("Authorization", "Bearer "+ preferences.getString("TOKEN_KEY", null))
+                        .build();
+                try (Response response = client.newCall(request).execute()) {
+                    if (response.isSuccessful()){
+                        isStatus = true;
+                    }else{
+                        isStatus = false;
+                    }
+                    return response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }catch (Exception e){
+
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result1) {
+            super.onPostExecute(result1);
+            JSONObject root = null;
+            Log.d(TAG,result1);
+            try {
+                root = new JSONObject(result1);
+                if(isStatus){
+                    Log.d("demo","Token is valid");
+                    Toast.makeText(MainActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, TabLayoutActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    //It means that they are some error while signing up.
+                    Toast.makeText(MainActivity.this, "Session has expired. Please login again!", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
