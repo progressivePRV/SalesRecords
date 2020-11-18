@@ -29,35 +29,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchFilter">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="ifContentScrolls"
-                android:scrollIndicators="right"
-                android:scrollbars="vertical">
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:overScrollMode="ifContentScrolls"-->
+<!--                android:scrollIndicators="right"-->
+<!--                android:scrollbars="vertical">-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/orderRecylerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/buttonLoadMore"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/buttonLoadMore"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/load_more"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
 
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

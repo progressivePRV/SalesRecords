@@ -236,25 +236,25 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
             }
         });
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-//                Log.d("demo","recycler view scroll state "+dx +" "+dy);
-            }
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-//                Log.d("demo", "newState : "+ newState );
-                if (!recyclerView.canScrollVertically(1)) {
-//                    Toast.makeText(getActivity(), "Last", Toast.LENGTH_LONG).show();
-                    getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.VISIBLE);
-                }else{
-                    getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.GONE);
-                }
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+////                Log.d("demo","recycler view scroll state "+dx +" "+dy);
+//            }
+//
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+////                Log.d("demo", "newState : "+ newState );
+//                if (!recyclerView.canScrollVertically(1)) {
+////                    Toast.makeText(getActivity(), "Last", Toast.LENGTH_LONG).show();
+//                    getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.VISIBLE);
+//                }else{
+//                    getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.GONE);
+//                }
+//            }
+//        });
 
         new GetOrdersFromServer(false).execute("");
 
@@ -419,25 +419,25 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
             }
         });
 
-        getView().findViewById(R.id.buttonLoadMore).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(memoryArrayList.size() == 100){
-                    for(int i=0; i<memoryArrayList.size(); i++){
-                        memoryArrayList.remove(i);
-                        if(i==49){
-                            break;
-                        }
-                    }
-                }
-                page = page+1;
-                if(globalQuery.equals("")){
-                    new GetOrdersFromServer(false).execute("");
-                }else{
-                    new GetOrdersFromServer(false).execute(globalQuery);
-                }
-            }
-        });
+//        getView().findViewById(R.id.buttonLoadMore).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(memoryArrayList.size() == 100){
+//                    for(int i=0; i<memoryArrayList.size(); i++){
+//                        memoryArrayList.remove(i);
+//                        if(i==49){
+//                            break;
+//                        }
+//                    }
+//                }
+//                page = page+1;
+//                if(globalQuery.equals("")){
+//                    new GetOrdersFromServer(false).execute("");
+//                }else{
+//                    new GetOrdersFromServer(false).execute(globalQuery);
+//                }
+//            }
+//        });
     }
 
     public String getFilterComparator(int condition){
@@ -468,6 +468,24 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
             viewModel.InsertOrder(order);
         }else if(operation.equals("delete")){
             viewModel.DeleteOrder(order);
+        }
+    }
+
+    @Override
+    public void LoadMoreOrders() {
+        if(memoryArrayList.size() == 100){
+            for(int i=0; i<memoryArrayList.size(); i++){
+                memoryArrayList.remove(i);
+                if(i==49){
+                    break;
+                }
+            }
+        }
+        page = page+1;
+        if(globalQuery.equals("")){
+            new GetOrdersFromServer(false).execute("");
+        }else{
+            new GetOrdersFromServer(false).execute(globalQuery);
         }
     }
 
@@ -553,7 +571,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                         }else{
                             if(memoryArrayList.size()>50){
                                 recyclerView.scrollToPosition(51);
-                                getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.GONE);
+//                                getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.GONE);
                             }else{
                                 recyclerView.scrollToPosition(0);
                             }
