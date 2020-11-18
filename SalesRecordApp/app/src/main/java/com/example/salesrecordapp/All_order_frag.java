@@ -139,7 +139,9 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
 
         // specify an adapter (see also next example)
         mAdapter = new OrderAdapter(memoryArrayList, All_order_frag.this);
+
         recyclerView.setAdapter(mAdapter);
+        recyclerView.requestDisallowInterceptTouchEvent(true);
 
         Spinner spinner = (Spinner) getView().findViewById(R.id.filterSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
@@ -412,6 +414,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                 radioButton2.setChecked(false);
                 memoryArrayList.clear();
                 page = 1;
+                globalQuery = "";
                 new GetOrdersFromServer(false).execute("");
             }
         });
@@ -562,11 +565,12 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                 } else {
                     Log.d(TAG, "onPostExecute: error occurred in fetching orders");
                     try {
-                        JSONObject root = new JSONObject(error);
+                        JSONObject root = new JSONObject(response);
                         int errorCode = root.getInt("errorCode");
                         switch (errorCode) {
                             case 102:
                                 Toast.makeText(getActivity(), "No More Records Found", Toast.LENGTH_SHORT).show();
+                                break;
                             case 103:
                                 Toast.makeText(getActivity(), "Token was not provided for request", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onPostExecute: token was not provided for request");
@@ -574,6 +578,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                             case 104:
                                 Toast.makeText(getActivity(), "Session expired Login again", Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onPostExecute: Token Expired");
+                                break;
                             default:
                                 Log.d(TAG, "onPostExecute: error code was not provided");
                         }
