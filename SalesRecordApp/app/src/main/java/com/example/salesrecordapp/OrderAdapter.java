@@ -54,21 +54,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
         new FindSpecificOrder(order, holder.imageButtonFav, holder.imageButton).execute();
 
-//        if(orderWithFavourite.isFavorite == false){
-//            holder.imageButtonFav.setVisibility(ImageButton.INVISIBLE);
-//            holder.imageButton.setVisibility(ImageButton.VISIBLE);
-//        }else{
-//            holder.imageButton.setVisibility(ImageButton.INVISIBLE);
-//            holder.imageButtonFav.setVisibility(ImageButton.VISIBLE);
-//        }
-
-//        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("Demo","Selected Position is :" + mDataset.get(position));
-//                interact.getDetails(mDataset.get(position));
-//            }
-//        });
 
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

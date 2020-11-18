@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -230,6 +231,26 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                     Toast.makeText(getActivity(), "No more records to be loaded. You are already on the top!", Toast.LENGTH_SHORT).show();
                 }
                 swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+//                Log.d("demo","recycler view scroll state "+dx +" "+dy);
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+//                Log.d("demo", "newState : "+ newState );
+                if (!recyclerView.canScrollVertically(1)) {
+//                    Toast.makeText(getActivity(), "Last", Toast.LENGTH_LONG).show();
+                    getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.VISIBLE);
+                }else{
+                    getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.GONE);
+                }
             }
         });
 
@@ -529,6 +550,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                         }else{
                             if(memoryArrayList.size()>50){
                                 recyclerView.scrollToPosition(51);
+                                getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.GONE);
                             }else{
                                 recyclerView.scrollToPosition(0);
                             }
