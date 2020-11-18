@@ -23,7 +23,7 @@
 
     <string-array name="filter_by">
         <item>Select</item>
-        <item>Order Name</item>
+        <item>Item Type</item>
         <item>Order Date</item>
         <item>Units Sold </item>
         <item>Unit Cost</item>
@@ -40,7 +40,7 @@
 
     <string-array name="sort_by">
         <item>Select</item>
-        <item>Order Name</item>
+        <item>Item Type</item>
         <item>Order Date</item>
         <item>Units Sold </item>
         <item>Unit Cost</item>
