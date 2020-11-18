@@ -274,59 +274,59 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                         break;
                     case 1:
                         query = "";
-                        if(FilterOrderName.getText().toString().equals("")){
+                        if(FilterOrderName.getText().toString().trim().equals("")){
                             Toast.makeText(getActivity(), "Search Text cannot be empty", Toast.LENGTH_SHORT).show();
                             FilterOrderName.setError("Cannot be empty");
                         }else{
-                            query = "filter=item_type&filterValue="+FilterOrderName.getText().toString();
+                            query = "filter=item_type&filterValue="+FilterOrderName.getText().toString().trim();
                         }
                         break;
                     case 2:
                         query = "";
-                        if(FilterOrderName.getText().toString().equals("")){
+                        if(FilterOrderName.getText().toString().trim().equals("")){
                             Toast.makeText(getActivity(), "Search Text cannot be empty", Toast.LENGTH_SHORT).show();
                             FilterOrderName.setError("Cannot be empty");
                         }else{
-                            query = "filter=order_date&filterValue="+FilterOrderName.getText().toString();
+                            query = "filter=order_date&filterValue="+FilterOrderName.getText().toString().trim();
                         }
                         break;
                     case 3:
                         query = "";
                         condition = condSpinner.getSelectedItemPosition();
-                        if(numberEditTextCon.getText().toString().equals("")){
+                        if(numberEditTextCon.getText().toString().trim().equals("")){
                             Toast.makeText(getActivity(), "Search Text cannot be empty", Toast.LENGTH_SHORT).show();
                             numberEditTextCon.setError("Cannot be empty");
                         }else{
                             String filterComparator = getFilterComparator(condition);
                             query = "filter=units_sold&filterValue="
-                                    +numberEditTextCon.getText().toString()
+                                    +numberEditTextCon.getText().toString().trim()
                                     +"&filterComparator="+filterComparator;
                         }
                         break;
                     case 4:
                         query = "";
                         condition = condSpinner.getSelectedItemPosition();
-                        if(numberEditTextCon.getText().toString().equals("")){
+                        if(numberEditTextCon.getText().toString().trim().equals("")){
                             Toast.makeText(getActivity(), "Search Text cannot be empty", Toast.LENGTH_SHORT).show();
                             numberEditTextCon.setError("Cannot be empty");
                         }else{
                             String filterComparator = getFilterComparator(condition);
                             query = "filter=unit_cost&filterValue="
-                                    +numberEditTextCon.getText().toString()
+                                    +numberEditTextCon.getText().toString().trim()
                                     +"&filterComparator="+filterComparator;
                         }
                         break;
                     case 5:
                         query = "";
                         condition = condSpinner.getSelectedItemPosition();
-                        if(numberEditTextCon.getText().toString().equals("")){
+                        if(numberEditTextCon.getText().toString().trim().equals("")){
                             Toast.makeText(getActivity(), "Search Text cannot be empty", Toast.LENGTH_SHORT).show();
                             numberEditTextCon.setError("Cannot be empty");
                         }else{
                             String filterComparator = "";
 
                             query += "filter=total&filterValue="
-                                    +numberEditTextCon.getText().toString()
+                                    +numberEditTextCon.getText().toString().trim()
                                     +"&filterComparator="+filterComparator;
                         }
                         break;
