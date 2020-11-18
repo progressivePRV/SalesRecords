@@ -340,66 +340,91 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
 //                sortBy=order_date&sortOrder=desc
                 String sortQuery = "";
 
+                boolean isOkay = true;
                 switch (sortPosition){
                     case 0:
                         sortQuery = "";
+                        isOkay = true;
                         break;
                     case 1:
                         sortQuery = "";
+                        isOkay = true;
                         if(radioButton.isChecked()){
                             sortQuery = "sortBy=item_type&sortOrder=desc";
-                        }else{
+                        }else if(radioButton2.isChecked()){
                             sortQuery = "sortBy=item_type&sortOrder=asc";
+                        }else{
+                            isOkay = false;
+                            Toast.makeText(getActivity(), "Please select ascending or descending", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case 2:
                         sortQuery = "";
+                        isOkay = true;
                         if(radioButton.isChecked()){
                             sortQuery = "sortBy=order_date&sortOrder=desc";
-                        }else{
+                        }else if(radioButton2.isChecked()){
                             sortQuery = "sortBy=order_date&sortOrder=asc";
+                        }else{
+                            isOkay = false;
+                            Toast.makeText(getActivity(), "Please select ascending or descending", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case 3:
                         sortQuery = "";
+                        isOkay = true;
                         if(radioButton.isChecked()){
                             sortQuery = "sortBy=units_sold&sortOrder=desc";
-                        }else{
+                        }else if(radioButton2.isChecked()){
                             sortQuery = "sortBy=units_sold&sortOrder=asc";
+                        }else{
+                            isOkay = false;
+                            Toast.makeText(getActivity(), "Please select ascending or descending", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case 4:
                         sortQuery = "";
+                        isOkay = true;
                         if(radioButton.isChecked()){
                             sortQuery = "sortBy=unit_cost&sortOrder=desc";
-                        }else{
+                        }else if(radioButton2.isChecked()){
                             sortQuery = "sortBy=unit_cost&sortOrder=asc";
+                        }else{
+                            isOkay = false;
+                            Toast.makeText(getActivity(), "Please select ascending or descending", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case 5:
                         sortQuery = "";
+                        isOkay = true;
                         if(radioButton.isChecked()){
                             sortQuery = "sortBy=total&sortOrder=desc";
-                        }else{
+                        }else if(radioButton2.isChecked()){
                             sortQuery = "sortBy=total&sortOrder=asc";
+                        }else{
+                            isOkay = false;
+                            Toast.makeText(getActivity(), "Please select ascending or descending", Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }
-                page = 1;
-                memoryArrayList.clear();
 
-                if(query.equals("")&&sortQuery.equals("")){
-                    globalQuery = "";
-                    new GetOrdersFromServer(false).execute("");
-                }else if(query.equals("") && !sortQuery.equals("")){
-                    globalQuery = "&"+sortQuery;
-                    new GetOrdersFromServer(false).execute(globalQuery);
-                }else if(!query.equals("") && sortQuery.equals("")){
-                    globalQuery = "&"+query;
-                    new GetOrdersFromServer(false).execute(globalQuery);
-                }else if(!query.equals("") && !sortQuery.equals("")){
-                    globalQuery = "&"+query+"&"+sortQuery;
-                    new GetOrdersFromServer(false).execute(globalQuery);
+                if(isOkay){
+                    page = 1;
+                    memoryArrayList.clear();
+
+                    if(query.equals("")&&sortQuery.equals("")){
+                        globalQuery = "";
+                        new GetOrdersFromServer(false).execute("");
+                    }else if(query.equals("") && !sortQuery.equals("")){
+                        globalQuery = "&"+sortQuery;
+                        new GetOrdersFromServer(false).execute(globalQuery);
+                    }else if(!query.equals("") && sortQuery.equals("")){
+                        globalQuery = "&"+query;
+                        new GetOrdersFromServer(false).execute(globalQuery);
+                    }else if(!query.equals("") && !sortQuery.equals("")){
+                        globalQuery = "&"+query+"&"+sortQuery;
+                        new GetOrdersFromServer(false).execute(globalQuery);
+                    }
                 }
 
             }
