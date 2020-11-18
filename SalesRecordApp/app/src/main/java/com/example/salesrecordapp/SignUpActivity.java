@@ -42,12 +42,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         firstName_TIET = findViewById(R.id.firstName_TIET);
         lastName_TIET = findViewById(R.id.lastName_TIET);
-        age_TIET = findViewById(R.id.age_TIET);
+//        age_TIET = findViewById(R.id.age_TIET);
         email_TIET = findViewById(R.id.email_TIET);
         password_TIET = findViewById(R.id.password_TIET);
         firstName_TIL = findViewById(R.id.firstName_TIL);
         lastName_TIL = findViewById(R.id.lastName_TIL);
-        age_TIL = findViewById(R.id.age_TIL);
+//        age_TIL = findViewById(R.id.age_TIL);
         email_TIL = findViewById(R.id.email_TIL);
         password_TIL = findViewById(R.id.password_TIL);
         genderRadioGroup = findViewById(R.id.radio_group_male_female);
@@ -61,9 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
                     String fnameValue = firstName_TIET.getText().toString().trim();
                     String lnameValue = lastName_TIET.getText().toString().trim();
                     String passwordValue = password_TIET.getText().toString().trim();
-                    //String repeatPasswordValue = repeatPassword.getText().toString().trim();
                     String emailValue = email_TIET.getText().toString().trim();
-                    String ageValue = age_TIET.getText().toString().trim();
                     String genderValue;
                     if (R.id.female == genderRadioGroup.getCheckedRadioButtonId()) {
                         genderValue = "Female";
@@ -71,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
                         genderValue = "Male";
                     }
 
-                    new createNewUser(emailValue, passwordValue, fnameValue, lnameValue, ageValue, genderValue).execute("");
+                    new createNewUser(emailValue, passwordValue, fnameValue, lnameValue, genderValue).execute("");
                 }
             }
         });
@@ -94,12 +92,6 @@ public class SignUpActivity extends AppCompatActivity {
         if(genderRadioGroup.getCheckedRadioButtonId() == -1){
             Toast.makeText(this, "Please select a gender", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        if(age_TIET.getText().toString().equals("")){
-            age_TIL.setError("Cannot be empty");
-            return false;
-        }else{
-            age_TIL.setError("");
         }
         if(email_TIET.getText().toString().equals("")){
             email_TIL.setError("Cannot be empty");
@@ -127,13 +119,13 @@ public class SignUpActivity extends AppCompatActivity {
         boolean isStatus = true;
 
         String emailValue, passwordValue, fnameValue, lnameValue, gender;
-        String age;
-        public createNewUser(String emailValue, String passwordValue, String fnameValue, String lnameValue, String age, String gender) {
+//        String age;
+        public createNewUser(String emailValue, String passwordValue, String fnameValue, String lnameValue, String gender) {
             this.emailValue = emailValue;
             this.passwordValue = passwordValue;
             this.fnameValue = fnameValue;
             this.lnameValue = lnameValue;
-            this.age = age;
+//            this.age = age;
             this.gender = gender;
         }
 
@@ -145,13 +137,13 @@ public class SignUpActivity extends AppCompatActivity {
             RequestBody formBody = new FormBody.Builder()
                     .add("firstName",fnameValue)
                     .add("lastName",lnameValue)
-                    .add("age",age)
+//                    .add("age",age)
                     .add("gender",gender)
                     .add("email", emailValue)
                     .add("password",passwordValue)
                     .build();
             Request request = new Request.Builder()
-                    .url(getResources().getString(R.string.endPointUrl)+"api/v1/users/signup")
+                    .url(getResources().getString(R.string.endPointUrl)+"signup")
                     .post(formBody)
                     .build();
             String responseValue = null;

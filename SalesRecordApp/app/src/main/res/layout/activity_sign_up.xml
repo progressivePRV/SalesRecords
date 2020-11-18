@@ -73,24 +73,6 @@
     </RadioGroup>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/age_TIL"
-        style="@style/textInputStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_group_male_female">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/age_TIET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/Age"
-            android:inputType="number" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_TIL"
         style="@style/textInputStyle"
         android:layout_width="0dp"
@@ -99,7 +81,7 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/age_TIL">
+        app:layout_constraintTop_toBottomOf="@+id/radio_group_male_female">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_TIET"
