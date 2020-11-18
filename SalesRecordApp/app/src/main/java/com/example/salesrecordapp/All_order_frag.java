@@ -218,7 +218,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                 Log.d("demo","recyclerview refreshing");
                 if(page > 1){
                     page = page - 1;
-                    for(int i=memoryArrayList.size()-1; i<0; i++){
+                    for(int i=memoryArrayList.size()-1; i>0; i--){
                         memoryArrayList.remove(i);
                         if(memoryArrayList.size() == 50){
                             break;
@@ -592,11 +592,16 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                         Log.d("demo","memoryArrayList size is "+memoryArrayList.size());
                         mAdapter.notifyDataSetChanged();
                         if(isTop){
+                            Toast.makeText(getActivity(), "displaying pages " + page +"and " + (page+1) +"("+ memoryArrayList.size()+" enteries)", Toast.LENGTH_SHORT).show();
                             recyclerView.scrollToPosition(0);
                         }else{
+                            if(page > 1){
+                                Toast.makeText(getActivity(), "displaying pages " + (page-1) +"and " + page +"("+ memoryArrayList.size()+" enteries)", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getActivity(), "displaying page " + page +"("+ memoryArrayList.size()+" enteries)", Toast.LENGTH_SHORT).show();
+                            }
                             if(memoryArrayList.size()>50){
                                 recyclerView.scrollToPosition(51);
-//                                getView().findViewById(R.id.buttonLoadMore).setVisibility(Button.GONE);
                             }else{
                                 recyclerView.scrollToPosition(0);
                             }
