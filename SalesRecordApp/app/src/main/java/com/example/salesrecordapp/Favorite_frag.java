@@ -150,6 +150,12 @@ public class Favorite_frag extends Fragment implements FavoriteAdapter.InteractW
                     // specify an adapter (see also next example)
                     mAdapter = new FavoriteAdapter(favArrayList, Favorite_frag.this);
                     recyclerView.setAdapter(mAdapter);
+                }else{
+                    recyclerView = getView().findViewById(R.id.favRecyclerView);
+                    layoutManager = new LinearLayoutManager(getActivity());
+                    recyclerView.setLayoutManager(layoutManager);
+                    mAdapter = new FavoriteAdapter(favArrayList, Favorite_frag.this);
+                    recyclerView.setAdapter(mAdapter);
                 }
             }
         });

@@ -20,6 +20,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -56,7 +60,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
     private SwipeRefreshLayout swipeRefreshLayout;
     Gson gson = new Gson();
     User user;
-    ArrayList<OrderWithFavourite> orderArrayList = new ArrayList<>();
+    ArrayList<Order> orderArrayList = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,6 +69,8 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
     private static final String TAG = "okay";
     private AppViewModel viewModel;
 
+    private EditText numberEditTextCon, FilterOrderName;
+    private Spinner conditionSpinner;
 
     public All_order_frag() {
         // Required empty public constructor
@@ -147,6 +153,52 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
         mAdapter = new OrderAdapter(orderArrayList, All_order_frag.this);
         recyclerView.setAdapter(mAdapter);
 
+        numberEditTextCon = getView().findViewById(R.id.numberEditTextCon);
+        FilterOrderName = getView().findViewById(R.id.FilterOrderName);
+        conditionSpinner = getView().findViewById(R.id.conditionSpinner);
+
+        numberEditTextCon.setVisibility(EditText.INVISIBLE);
+        FilterOrderName.setVisibility(EditText.INVISIBLE);
+        conditionSpinner.setVisibility(Spinner.INVISIBLE);
+
+        Spinner spinner = (Spinner) getView().findViewById(R.id.filterSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.filter_by, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        Spinner condSpinner = (Spinner) getView().findViewById(R.id.conditionSpinner);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(),
+                R.array.condition_spinner, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        condSpinner.setAdapter(adapter1);
+
+        Spinner sortSpinner = (Spinner) getView().findViewById(R.id.sortSpinner);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(),
+                R.array.sort_by, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapter2);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 1){
+                    Log.d("demo",position+" is entering inside");
+                    FilterOrderName.setVisibility(EditText.VISIBLE);
+                    conditionSpinner.setVisibility(Spinner.INVISIBLE);
+                    numberEditTextCon.setVisibility(EditText.INVISIBLE);
+                }else if(position == 3){
+                    FilterOrderName.setVisibility(EditText.INVISIBLE);
+                    conditionSpinner.setVisibility(Spinner.VISIBLE);
+                    numberEditTextCon.setVisibility(EditText.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -167,37 +219,6 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
         }
     }
 
-    class FindSpecificOrder extends AsyncTask<String,Void,Order> {
-        Order orderPrevious;
-        int position;
-
-        FindSpecificOrder(Order order, int position){
-            this.orderPrevious = order;
-            this.position = position;
-        }
-        @Override
-        protected Order doInBackground(String... strs) {
-            return viewModel.FindOrderWhereIdAndUserId(orderPrevious._id,orderPrevious.user_id);
-        }
-        @Override
-        protected void onPostExecute(Order order) {
-            super.onPostExecute(order);
-            Log.d("demo",orderPrevious.toString());
-            Log.d("demo",order+"");
-            if (order==null){
-                boolean isFavorite = true;
-                Log.d(TAG, "onPostExecute: order not found");
-            }else{
-                Log.d("demo","Entered the onpost execute of order "+order.toString());
-                Log.d(TAG, "onPostExecute: after searching for order in db=>"+order);
-                OrderWithFavourite orderWithFavourite = new OrderWithFavourite();
-                orderWithFavourite.order = orderPrevious;
-                orderWithFavourite.isFavorite = true;
-                orderArrayList.set(position, orderWithFavourite);
-                mAdapter.notifyDataSetChanged();
-            }
-        }
-    }
     boolean isStatus = true;
     private boolean IsConnected() {
         ConnectivityManager cm =
@@ -252,10 +273,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                             order.unit_cost = jb.getDouble("unit_cost");
                             order.total = jb.getDouble("total");
                             order.user_id = user._id;
-                            OrderWithFavourite order1 = new OrderWithFavourite();
-                            order1.order =  order;
-                            order1.isFavorite = false;
-                            orderArrayList.add(order1);
+                            orderArrayList.add(order);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -263,7 +281,6 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                     }
                     if(orderArrayList.size() > 0){
                         mAdapter.notifyDataSetChanged();
-                        getFavoriteOrder();
                     }else{
                         mAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), "Sorry no orders available!", Toast.LENGTH_SHORT).show();
@@ -296,10 +313,5 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
         }
     }
 
-    private void getFavoriteOrder() {
-        for(int i=0; i<orderArrayList.size(); i++) {
-            new FindSpecificOrder(orderArrayList.get(i).order, i).execute();
-        }
-    }
 
 }

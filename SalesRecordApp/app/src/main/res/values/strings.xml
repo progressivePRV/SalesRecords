@@ -17,4 +17,33 @@
     <string name="units_sold">Units Sold</string>
     <string name="unit_cost">Units Cost</string>
     <string name="total">Total</string>
+    <string name="load_more">Load More</string>
+    <string name="enter_order_name">Enter Order Name</string>
+    <string name="Enter_value">Enter Value</string>
+
+    <string-array name="filter_by">
+        <item>Select</item>
+        <item>Order Name</item>
+        <item>Order Date</item>
+        <item>Units Sold </item>
+        <item>Unit Cost</item>
+        <item>Total</item>
+    </string-array>
+
+    <string-array name="condition_spinner">
+        <item>eq</item>
+        <item>gte</item>
+        <item>gt </item>
+        <item>lte</item>
+        <item>lt</item>
+    </string-array>
+
+    <string-array name="sort_by">
+        <item>Select</item>
+        <item>Order Name</item>
+        <item>Order Date</item>
+        <item>Units Sold </item>
+        <item>Unit Cost</item>
+        <item>Total</item>
+    </string-array>
 </resources>
