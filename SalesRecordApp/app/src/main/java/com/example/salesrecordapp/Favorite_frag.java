@@ -137,26 +137,28 @@ public class Favorite_frag extends Fragment implements FavoriteAdapter.InteractW
             @Override
             public void onChanged(List<Order> orders) {
                 Log.d(TAG, "onChanged: got "+orders.size()+" orders for user1");
-                if (!orders.isEmpty()){
+                if (getView()!=null){
+                    if (!orders.isEmpty()){
 //                    Log.d(TAG, "onChanged: first order for user1=>"+orders.get(0));
-                    favArrayList = new ArrayList<>();
-                    favArrayList = orders;
-                    Log.d("demo",favArrayList.toString());
-                    recyclerView = getView().findViewById(R.id.favRecyclerView);
+                        favArrayList = new ArrayList<>();
+                        favArrayList = orders;
+                        Log.d("demo",favArrayList.toString());
+                        recyclerView = getView().findViewById(R.id.favRecyclerView);
 
-                    layoutManager = new LinearLayoutManager(getActivity());
-                    recyclerView.setLayoutManager(layoutManager);
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        recyclerView.setLayoutManager(layoutManager);
 
-                    // specify an adapter (see also next example)
-                    mAdapter = new FavoriteAdapter(favArrayList, Favorite_frag.this);
-                    recyclerView.setAdapter(mAdapter);
-                }else{
-                    favArrayList = new ArrayList<>();
-                    recyclerView = getView().findViewById(R.id.favRecyclerView);
-                    layoutManager = new LinearLayoutManager(getActivity());
-                    recyclerView.setLayoutManager(layoutManager);
-                    mAdapter = new FavoriteAdapter(favArrayList, Favorite_frag.this);
-                    recyclerView.setAdapter(mAdapter);
+                        // specify an adapter (see also next example)
+                        mAdapter = new FavoriteAdapter(favArrayList, Favorite_frag.this);
+                        recyclerView.setAdapter(mAdapter);
+                    }else{
+                        favArrayList = new ArrayList<>();
+                        recyclerView = getView().findViewById(R.id.favRecyclerView);
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        recyclerView.setLayoutManager(layoutManager);
+                        mAdapter = new FavoriteAdapter(favArrayList, Favorite_frag.this);
+                        recyclerView.setAdapter(mAdapter);
+                    }
                 }
             }
         });
