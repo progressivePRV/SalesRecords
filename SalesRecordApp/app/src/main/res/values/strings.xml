@@ -13,4 +13,8 @@
     <string name="all_orders">All Orders</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="endPointUrl">http://64.227.27.167:3000/api/v1/</string>
+    <string name="units_sold">Units Sold</string>
+    <string name="unit_cost">Units Cost</string>
+    <string name="total">Total</string>
 </resources>

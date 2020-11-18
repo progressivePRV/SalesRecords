@@ -16,7 +16,7 @@ public class Order {
     String order_date;
 
     @NonNull
-    float unit_cost;
+    double unit_cost;
 
     @NonNull
     int units_sold;
@@ -28,16 +28,6 @@ public class Order {
     String user_id;
 
     public Order() {
-    }
-
-    public Order(@NonNull String _id, @NonNull String item_type, @NonNull String order_date, float unit_cost, int units_sold, double total, @NonNull String user_id) {
-        this._id = _id;
-        this.item_type = item_type;
-        this.order_date = order_date;
-        this.unit_cost = unit_cost;
-        this.units_sold = units_sold;
-        this.total = total;
-        this.user_id = user_id;
     }
 
     @Override
@@ -52,4 +42,15 @@ public class Order {
                 ", user_id='" + user_id + '\'' +
                 '}';
     }
+
+    public Order(@NonNull String _id, @NonNull String item_type, @NonNull String order_date, float unit_cost, int units_sold, double total, @NonNull String user_id) {
+        this._id = _id;
+        this.item_type = item_type;
+        this.order_date = order_date;
+        this.unit_cost = unit_cost;
+        this.units_sold = units_sold;
+        this.total = total;
+        this.user_id = user_id;
+    }
+
 }

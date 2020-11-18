@@ -1,13 +1,19 @@
 package com.example.salesrecordapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,11 +21,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,20 +40,28 @@ import okhttp3.Response;
  * Use the {@link Favorite_frag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Favorite_frag extends Fragment {
+public class Favorite_frag extends Fragment implements FavoriteAdapter.InteractWithRecyclerView{
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private SharedPreferences preferences;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    Gson gson = new Gson();
+    User user;
+    List<Order> favArrayList = new ArrayList<>();
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private static final String TAG = "okay";
     private AppViewModel viewModel;
-
+    private static final String TAG = "okay";
 
     public Favorite_frag() {
         // Required empty public constructor
@@ -55,7 +73,7 @@ public class Favorite_frag extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Favorite_frag.
+     * @return A new instance of fragment All_order_frag.
      */
     // TODO: Rename and change types and number of parameters
     public static Favorite_frag newInstance(String param1, String param2) {
@@ -84,120 +102,65 @@ public class Favorite_frag extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(AppViewModel.class);
 
-//                Order o = new Order();
-//                o.user_id="user1";
-//                o._id="2";
-//                o.item_type="type1";
-//                o.order_date="11/11/2020";
-//                o.unit_cost= (float) 10.0;
-//                o.units_sold=2;
-//                o.total=20.0;
-//                  viewModel.InsertOrder(o);   ////////// pass order to insert
+//        //********************************** delete order testing
+//        Order o = new Order();
+//        o.user_id="user"+1;
+//        o._id=""+3;
+//        o.item_type="type1";
+//        o.order_date="11/11/2020";
+//        o.unit_cost= (float) 10.0;
+//        o.units_sold=2;
+//        o.total=20.0;
+//          viewModel.DeleteOrder(o);   /////////  provide order to delete the from database
 
-
-        //********************************** FindSpecificOrder testing
-        new FindSpecificOrder().execute("1","user0");
+        //********************************** getting every order for user
+        // change static user id
 
         return view;
     }
 
-    class FindSpecificOrder extends AsyncTask<String,Void,Order> {
-        @Override
-        protected Order doInBackground(String... strs) {
-            return viewModel.FindOrderWhereIdAndUserId(strs[0],strs[1]);
-        }
-        @Override
-        protected void onPostExecute(Order order) {
-            super.onPostExecute(order);
-            if (order==null){
-                Log.d(TAG, "onPostExecute: order not found");
-            }else{
-                Log.d(TAG, "onPostExecute: after searching for order in db=>"+order);
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        preferences = getActivity().getSharedPreferences("TokeyKey", 0);
+
+        String token_key = preferences.getString("TOKEN_KEY", null);
+
+        String pro =  preferences.getString("USER",null);
+        user = gson.fromJson(pro, User.class);
+
+
+
+        viewModel.GetOrdersForUser(user._id).observe(getActivity(), new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> orders) {
+                Log.d(TAG, "onChanged: got "+orders.size()+" orders for user1");
+                if (!orders.isEmpty()){
+//                    Log.d(TAG, "onChanged: first order for user1=>"+orders.get(0));
+                    favArrayList = new ArrayList<>();
+                    favArrayList = orders;
+                    Log.d("demo",favArrayList.toString());
+                    recyclerView = getView().findViewById(R.id.favRecyclerView);
+
+                    layoutManager = new LinearLayoutManager(getActivity());
+                    recyclerView.setLayoutManager(layoutManager);
+
+                    // specify an adapter (see also next example)
+                    mAdapter = new FavoriteAdapter(favArrayList, Favorite_frag.this);
+                    recyclerView.setAdapter(mAdapter);
+                }
             }
-        }
+        });
     }
 
-    private boolean IsConnected() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
-
-    class GetOrdersFromServer extends AsyncTask<String ,Void,Void> {
-        String result="",error="";
-        @Override
-        protected Void doInBackground(String... strs) {
-            final OkHttpClient client = new OkHttpClient();
-
-            String url = "http://64.227.27.167:3000/api/v1/sales";
-            if (strs.length>0){
-                url += "?";
-                for (String s : strs){
-                    url += s+"&";
-                }
-            }
-
-
-            Request request = new Request.Builder()
-                    .url(url)
-//                    .addHeader("Authorization","Bearer "+auth)
-                    .build();
-            try{
-                Response response = client.newCall(request).execute();
-                result = response.body().string();
-                Log.d(TAG, "doInBackground: response =>"+result);
-                if (!response.isSuccessful()){
-                    error = result;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d(TAG, "doInBackground: error while fetching orders from server in main activity");
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if(error.isEmpty()){
-                try {
-                    JSONArray rootarr = new JSONArray(result);
-                    Log.d(TAG, "onPostExecute: got order arr of size=>"+rootarr.length());
-                    for (int i=0;i<rootarr.length();i++){
-//                        JSONObject jb =  rootarr.getJSONObject(i);
-//                        Order o = gson.fromJson(jb.toString(),Order.class);
-//                        // set then add o.user_id
-//                        orders.add(o);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "onPostExecute: error while parsing the jason array of orders");
-                }
-            }else{
-                Log.d(TAG, "onPostExecute: error occurred in fetching orders");
-                try {
-                    JSONObject root =  new JSONObject(error);
-                    int errorCode = root.getInt("errorCode");
-                    switch (errorCode){
-                        case 103:
-                            Toast.makeText(getActivity(), "Token was not provided for request", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "onPostExecute: token was not provided for request");
-                            break;
-                        case 104:
-                            Toast.makeText(getActivity(), "Session expired Login again", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "onPostExecute: Token Expired");
-                        default:
-                            Log.d(TAG, "onPostExecute: error code was not provided");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "onPostExecute: error while parsing error for fetching orders");
-                }
-
-            }
+    @Override
+    public void getDetails(Order order, String Operation) {
+        if(Operation.equals("add")){
+            viewModel.InsertOrder(order);
+        }else if(Operation.equals("delete")){
+            viewModel.DeleteOrder(order);
         }
     }
-
 }
