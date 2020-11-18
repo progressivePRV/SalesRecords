@@ -23,10 +23,4 @@ public interface OrderDAO {
     @Query("Select * from `Order` where user_id=:uid")
     LiveData<List<Order>> FindAllOrderForUser(String uid);
 
-//    @Query("Select * from `Order`")
-//    LiveData<List<Order>> getAllOrders();
-
-//    @Query("Delete from `Order`")
-//    void DeleteAll();
-
 }

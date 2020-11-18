@@ -20,6 +20,7 @@
     <string name="load_more">Load More</string>
     <string name="enter_order_name">Enter Search Text</string>
     <string name="Enter_value">Enter Value</string>
+    <string name="logout">Logout</string>
 
     <string-array name="filter_by">
         <item>Select</item>
