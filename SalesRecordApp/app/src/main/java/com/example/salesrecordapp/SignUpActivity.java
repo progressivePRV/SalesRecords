@@ -40,6 +40,8 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         firstName_TIET = findViewById(R.id.firstName_TIET);
         lastName_TIET = findViewById(R.id.lastName_TIET);
 //        age_TIET = findViewById(R.id.age_TIET);
@@ -212,5 +214,11 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

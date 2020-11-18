@@ -50,6 +50,8 @@ public class TabLayoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_layout);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         tabLayout = findViewById(R.id.tab_layout_in_tabActivity);
         adapter = new view_pager2_adapter(this);
         viewPager2 = findViewById(R.id.view_pager2_in_tabLayout);
@@ -65,5 +67,12 @@ public class TabLayoutActivity extends AppCompatActivity {
             }
         }).attach();
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        super.onSupportNavigateUp();
+        onBackPressed();
+        return true;
     }
 }
