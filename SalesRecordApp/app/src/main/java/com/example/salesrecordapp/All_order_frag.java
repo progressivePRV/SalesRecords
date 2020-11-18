@@ -524,10 +524,14 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                         }
                         Log.d("demo","memoryArrayList size is "+memoryArrayList.size());
                         mAdapter.notifyDataSetChanged();
-                        if(isTop == false){
-                            recyclerView.scrollToPosition(51);
-                        }else{
+                        if(isTop){
                             recyclerView.scrollToPosition(0);
+                        }else{
+                            if(memoryArrayList.size()>50){
+                                recyclerView.scrollToPosition(51);
+                            }else{
+                                recyclerView.scrollToPosition(0);
+                            }
                         }
                     }else{
                         mAdapter.notifyDataSetChanged();
