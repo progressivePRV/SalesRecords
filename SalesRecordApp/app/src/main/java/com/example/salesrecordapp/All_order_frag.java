@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -76,7 +77,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
 
     private EditText numberEditTextCon, FilterOrderName;
     private Spinner conditionSpinner;
-
+    TextView tv_page_number;
     private RadioButton radioButton, radioButton2;
 
     public All_order_frag() {
@@ -133,6 +134,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
         super.onViewCreated(view, savedInstanceState);
         recyclerView = getView().findViewById(R.id.orderRecylerView);
         swipeRefreshLayout = getView().findViewById(R.id.swipe);
+        tv_page_number = getView().findViewById(R.id.tv_page_number);////////////////////////////////////////////////////////////////////
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
