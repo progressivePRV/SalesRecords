@@ -18,7 +18,7 @@
     <string name="unit_cost">Units Cost</string>
     <string name="total">Total</string>
     <string name="load_more">Load More</string>
-    <string name="enter_order_name">Enter Order Name</string>
+    <string name="enter_order_name">Enter Search Text</string>
     <string name="Enter_value">Enter Value</string>
 
     <string-array name="filter_by">
