@@ -64,6 +64,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
     Gson gson = new Gson();
     User user;
     String globalQuery = "";
+    int shownPage = 0;
     int page = 1;
     ArrayList<Order> orderArrayList = new ArrayList<>();
     ArrayList<Order> memoryArrayList = new ArrayList<>();
