@@ -607,7 +607,7 @@ public class All_order_frag extends Fragment implements OrderAdapter.InteractWit
                         Log.d("demo","memoryArrayList size is "+memoryArrayList.size());
                         mAdapter.notifyDataSetChanged();
                         if(isTop){
-                            Toast.makeText(getActivity(), "page is : "+page, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), "page is : "+page, Toast.LENGTH_SHORT).show();
                             tv_page_number.setText("Showing page " + page +" and " + (page+1) +"("+ memoryArrayList.size()+" entries)");
 //                            page = page+1;
                             recyclerView.scrollToPosition(0);
